@@ -5,19 +5,19 @@ package mgn;
 
 public enum ReferenceNote {
 
-	A("La", 0),
+	A("La", 9),
 
-	B("Si", 2),
+	B("Si", 11),
 
-	C("Do", 3),
+	C("Do", 0),
 
-	D("Re", 5),
+	D("Re", 2),
 
-	E("Mi", 7),
+	E("Mi", 4),
 
-	F("Fa", 8),
+	F("Fa", 5),
 
-	G("Sol", 10);
+	G("Sol", 7);
 
 	ReferenceNote(String name, int distance) {
 		this.name = name;
@@ -36,12 +36,8 @@ public enum ReferenceNote {
 		return distance;
 	}
 
-	public ReferenceNote previous() {
-		return ReferenceNote.values()[(this.ordinal() + 6) % 7];
-	}
-
 	public ReferenceNote next() {
-		return ReferenceNote.values()[(this.ordinal() + 1) % 7];
+		return ReferenceNote.values()[(ordinal() + 1) % 7];
 	}
 
 }

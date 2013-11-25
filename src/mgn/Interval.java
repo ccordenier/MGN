@@ -5,18 +5,18 @@ package mgn;
 
 public enum Interval {
 
-	TONIC(0, 0), 
-	
-	MINOR_THIRD(2, 3), 
-	
-	MAJOR_THIRD(2, 4), 
-	
-	FIFTH(4, 7), 
-	
+	TONIC(0, 0),
+
+	MINOR_THIRD(2, 3),
+
+	MAJOR_THIRD(2, 4),
+
+	FIFTH(4, 7),
+
 	MINOR_SEVENTH(6, 10),
-	
+
 	SEVENTH(6, 11),
-	
+
 	OCTAVE(7, 12);
 
 	Interval(int degree, int distance) {
@@ -46,7 +46,6 @@ public enum Interval {
 			}
 		}
 
-		return new Note(next, this.distance
-				- (12 * cycle + next.distance - tonic.getDistance()));
+		return new Note(next, distance - (12 * cycle + next.distance - tonic.getDistance()), tonic.getOctave() + cycle);
 	}
 }
