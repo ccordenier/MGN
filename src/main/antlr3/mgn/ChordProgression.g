@@ -10,6 +10,7 @@ tokens {
 }
 
 @header {
+
 package mgn;
 }
 
@@ -23,7 +24,7 @@ package mgn;
  
 }
 
-chordGrid: (BAR (bar BAR )+ NEWLINE?)+ EOF;
+chordGrid: (BAR (bar BAR)+ NEWLINE?)+ EOF;
 
 bar: {progression.startBar();} WS? chord (WS? SEMI_BAR WS? chord)? WS?; 
 

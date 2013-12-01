@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Track;
+
 public class Chord {
 
 	private Note tonic;
@@ -13,7 +18,8 @@ public class Chord {
 
 	private List<Note> notes;
 
-	public static final Pattern CHORD_PATTERN = Pattern.compile("([^mM7]*)(m|M|M7|m7|7)?$");
+	public static final Pattern CHORD_PATTERN = Pattern
+			.compile("([^mM7]*)(m|M|M7|m7|7)?$");
 
 	public Chord(String chord) {
 		super();
@@ -21,7 +27,8 @@ public class Chord {
 		Matcher matcher = CHORD_PATTERN.matcher(chord.trim());
 
 		if (!matcher.find()) {
-			throw new IllegalArgumentException("Unknown chord expression : " + chord);
+			throw new IllegalArgumentException("Unknown chord expression : "
+					+ chord);
 		}
 
 		tonic = new Note(matcher.group(1));
@@ -38,12 +45,18 @@ public class Chord {
 		return notes;
 	}
 
-	public Note getTonic() {
-		return tonic;
-	}
+	public void fillTrack(Track track, int tick, int tickLength)
+			throws InvalidMidiDataException {
 
-	public ReferenceChord getReferenceChord() {
-		return referenceChord;
+		for (Note n : notes) {
+			ShortMessage on = new ShortMessage();
+			on.setMessage(ShortMessage.NOTE_ON, 0, n.getMidiKey(), 64);
+			ShortMessage off = new ShortMessage();
+			off.setMessage(ShortMessage.NOTE_OFF, 0, n.getMidiKey(), 64);
+			track.add(new MidiEvent(on, tick));
+			track.add(new MidiEvent(off, tick + tickLength));
+		}
+
 	}
 
 	@Override
